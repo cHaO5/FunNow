@@ -116,7 +116,14 @@ public class MoviePageAdapter extends RecyclerView.Adapter<MoviePageAdapter.Movi
             try {
                 mMovieTitle.setText(Util.safeText(movie.getTitle()));
 //                System.out.println(movie.poster);
-                mPosterString.setText(Util.safeText(movie.getOriginal_title()));
+                Glide.with(mContext)
+                        .load(movie.getImages().getLarge())
+                        .into(mMoviePoster);
+
+                mPosterString.setText(Util.safeText(""));
+                for (String s : movie.getGenres()) {
+                    mPosterString.append(s + " ");
+                }
 //                final OkHttpClient client  = new OkHttpClient();
 //                String url = movie.poster;
 //                //创建请求

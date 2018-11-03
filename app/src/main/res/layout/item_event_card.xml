@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                                     xmlns:app="http://schemas.android.com/tools"
-                                    android:id="@+id/cardView_movie"
+                                    android:id="@+id/cardView_event"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:foreground="?android:attr/selectableItemBackground"
@@ -18,7 +18,7 @@
     >
 
         <ImageView
-                android:id="@+id/movie_poster"
+                android:id="@+id/event_poster"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/poster2"
@@ -26,10 +26,10 @@
                 android:scaleType="fitXY"/>
 
         <TextView
-                android:id="@+id/movie_title"
+                android:id="@+id/event_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/movie_poster"
+                android:layout_below="@+id/event_poster"
                 android:lines="2"
                 android:gravity="center"
                 android:ellipsize="end"
@@ -37,9 +37,9 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/movie_poster_string"
+                android:id="@+id/event_poster_string"
                 android:gravity="center"
-                android:layout_below="@+id/movie_title"/>
+                android:layout_below="@+id/event_title"/>
 
     </RelativeLayout>
 

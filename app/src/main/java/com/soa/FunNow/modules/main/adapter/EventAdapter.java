@@ -6,38 +6,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import com.bumptech.glide.Glide;
 import com.soa.FunNow.R;
 import com.soa.FunNow.base.BaseViewHolder;
 import com.soa.FunNow.common.utils.SharedPreferenceUtil;
-import com.soa.FunNow.common.utils.TimeUitl;
-import com.soa.FunNow.common.utils.Util;
 import com.soa.FunNow.component.AnimRecyclerViewAdapter;
-import com.soa.FunNow.component.ImageLoader;
 import com.soa.FunNow.component.PLog;
+import com.soa.FunNow.modules.main.domain.Event;
 import com.soa.FunNow.modules.main.domain.Movie;
-import com.soa.FunNow.modules.main.domain.Weather;
 
-public class MovieAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolder> {
-    private static String TAG = MovieAdapter.class.getSimpleName();
+public class EventAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolder> {
+    private static String TAG = EventAdapter.class.getSimpleName();
 
     private Context mContext;
 
     private static final int TYPE_ONE = 0;
 
-    private Movie mMovieData;
+    private Event mEventData;
 
-    public MovieAdapter(Movie movieData) {
-        this.mMovieData = movieData;
+    public EventAdapter(Event eventData) {
+        this.mEventData = eventData;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == MovieAdapter.TYPE_ONE) {
-            return MovieAdapter.TYPE_ONE;
+        if (position == EventAdapter.TYPE_ONE) {
+            return EventAdapter.TYPE_ONE;
         }
         return super.getItemViewType(position);
     }
@@ -47,8 +43,8 @@ public class MovieAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
         mContext = parent.getContext();
         switch (viewType) {
             case TYPE_ONE:
-                return new MovieAdapter.MovieInfoViewHolder(
-                        LayoutInflater.from(mContext).inflate(R.layout.item_movie_main_info, parent, false));
+                return new EventAdapter.EventInfoViewHolder(
+                        LayoutInflater.from(mContext).inflate(R.layout.item_event_main_info, parent, false));
         }
         return null;
     }
@@ -58,7 +54,7 @@ public class MovieAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
         int itemType = getItemViewType(position);
         switch (itemType) {
             case TYPE_ONE:
-                ((MovieAdapter.MovieInfoViewHolder) holder).bind(mMovieData);
+                ((EventAdapter.EventInfoViewHolder) holder).bind(mEventData);
                 break;
             default:
                 break;
@@ -70,33 +66,32 @@ public class MovieAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return mMovieData.getTitle() != null ? 1 : 0;
+        return mEventData.getTitle() != null ? 1 : 0;
     }
 
     /**
      * 当前天气情况
      */
-    class MovieInfoViewHolder extends BaseViewHolder<Movie> {
+    class EventInfoViewHolder extends BaseViewHolder<Event> {
 
-        @BindView(R.id.item_movie_poster)
-        ImageView itemMoviePoster;
-        @BindView(R.id.item_movie_title)
-        TextView itemMovieTitle;
+        @BindView(R.id.item_event_poster)
+        ImageView itemEventPoster;
+        @BindView(R.id.item_event_title)
+        TextView itemEventTitle;
 
-        MovieInfoViewHolder(View itemView) {
+        EventInfoViewHolder(View itemView) {
             super(itemView);
         }
 
-        protected void bind(Movie movie) {
+        protected void bind(Event event) {
             try {
-                itemMovieTitle.setText(movie.getTitle());
+                itemEventTitle.setText(event.getTitle());
                 Glide.with(mContext)
-                        .load(movie.getImages().getLarge())
-                        .into(itemMoviePoster);
+                        .load(event.getImage())
+                        .into(itemEventPoster);
             } catch (Exception e) {
                 PLog.e(TAG, e.toString());
             }
         }
     }
-
 }

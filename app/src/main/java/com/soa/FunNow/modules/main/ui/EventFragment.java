@@ -2,20 +2,11 @@ package com.soa.FunNow.modules.main.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,46 +17,30 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.litesuits.orm.db.assit.WhereBuilder;
 import com.soa.FunNow.R;
 import com.soa.FunNow.base.BaseFragment;
-import com.soa.FunNow.common.C;
-import com.soa.FunNow.common.utils.RxUtil;
-import com.soa.FunNow.common.utils.Util;
-import com.soa.FunNow.component.OrmLite;
-import com.soa.FunNow.component.RetrofitSingleton;
-import com.soa.FunNow.component.RxBus;
-import com.soa.FunNow.modules.main.adapter.MoviePageAdapter;
-import com.soa.FunNow.modules.main.adapter.MultiCityAdapter;
-import com.soa.FunNow.modules.main.domain.CityORM;
-import com.soa.FunNow.modules.main.domain.Movie;
-import com.soa.FunNow.modules.main.domain.MultiUpdateEvent;
-import com.soa.FunNow.modules.main.domain.Weather;
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
+import com.soa.FunNow.modules.main.adapter.EventAdapter;
+import com.soa.FunNow.modules.main.adapter.EventPageAdapter;
+import com.soa.FunNow.modules.main.domain.Event;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import static com.soa.FunNow.common.C.movieSubTypeList;
+import static com.soa.FunNow.common.C.eventSubTypeList;
 
-public class MovieFragment extends BaseFragment {
-
+public class EventFragment extends BaseFragment {
     private static final String JSON_TOTAL = "total";
-    private static final String JSON_SUBJECTS = "subjects";
+    private static final String JSON_SUBJECTS = "events";
 
-    private static RequestQueue requestQueue;
-
-    @BindView(R.id.recyclerView_movie)
+    @BindView(R.id.recyclerView_event)
     RecyclerView mRecyclerView;
 //    @BindView(R.id.swiprefresh)
 //    SwipeRefreshLayout mRefreshLayout;
 
-    private MoviePageAdapter mAdapter;
-    private List<Movie> mMovie = new ArrayList<>();
+    private EventPageAdapter mAdapter;
+    private List<Event> mEvent = new ArrayList<>();
     private String mRequestUrl;
     private int mTotalItem;
     private String mDataString;
@@ -82,7 +57,7 @@ public class MovieFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_movie, container, false);
+            view = inflater.inflate(R.layout.fragment_event, container, false);
             ButterKnife.bind(this, view);
         }
         return view;
@@ -107,7 +82,7 @@ public class MovieFragment extends BaseFragment {
 
     private void initData() {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        mRequestUrl = "http://api.douban.com/v2/movie/in_theaters";
+        mRequestUrl = "https://api.douban.com/v2/event/list?loc=guangzhou&count=60";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, mRequestUrl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -115,9 +90,8 @@ public class MovieFragment extends BaseFragment {
                         try {
                             mTotalItem = response.getInt(JSON_TOTAL);
                             mDataString = response.getString(JSON_SUBJECTS);
-                            mMovie = new Gson().fromJson(mDataString, movieSubTypeList);
-                            System.out.println("qqqqqqqqqqqqqqqqqq " + mMovie.size());
-                            mAdapter.updateList(mMovie);
+                            mEvent = new Gson().fromJson(mDataString, eventSubTypeList);
+                            mAdapter.updateList(mEvent);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } finally {
@@ -137,16 +111,16 @@ public class MovieFragment extends BaseFragment {
 
     private void initView() {
 //        mMovie = new ArrayList<>();
-        System.out.println("qqqqqqqqqqqqqqqqqq " + mMovie.size());
-        mAdapter = new MoviePageAdapter(mMovie);
+        System.out.println("qqqqqqqqqqqqqqqqqq " + mEvent.size());
+        mAdapter = new EventPageAdapter(mEvent);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
         System.out.println("111111111111111111111111");
-        mAdapter.setMoviePageClick(new MoviePageAdapter.onMoviePageClick() {
+        mAdapter.setEventPageClick(new EventPageAdapter.onEventPageClick() {
             @Override
-            public void click(Movie movie) {
-                DetailMovieActivity.launch(getActivity(), movie);
+            public void click(Event event) {
+                DetailEventActivity.launch(getActivity(), event);
             }
         });
 
@@ -160,4 +134,5 @@ public class MovieFragment extends BaseFragment {
 //            mRefreshLayout.setOnRefreshListener(() -> mRefreshLayout.postDelayed(this::multiLoad, 1000));
 //        }
     }
+
 }
