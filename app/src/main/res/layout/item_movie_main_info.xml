@@ -2,16 +2,15 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                                     xmlns:tools="http://schemas.android.com/tools"
-                                    android:id="@+id/cardView"
+                                    android:id="@+id/cardView_movie_info"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="@dimen/cardview_margin"
-                                    android:clickable="true"
                                     android:foreground="?android:attr/selectableItemBackground"
                                     card_view:cardCornerRadius="3dp"
                                     card_view:cardElevation="2dp">
 
-    <LinearLayout
+    <RelativeLayout
             android:paddingLeft="32dp"
             android:paddingBottom="16dp"
             android:paddingRight="16dp"
@@ -21,15 +20,17 @@
             android:layout_height="wrap_content">
         <ImageView
                 android:id="@+id/item_movie_poster"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:src="@color/cardview_dark_background"/>
-        <TextView
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/item_movie_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:src="@mipmap/poster"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"/>
+        <TextView
+                android:id="@+id/item_movie_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_below="@+id/item_movie_poster"
                 android:text="movie test"/>
-    </LinearLayout>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

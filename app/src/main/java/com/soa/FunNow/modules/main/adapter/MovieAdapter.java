@@ -69,7 +69,7 @@ public class MovieAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return mMovieData.title != null ? 1 : 0;
+        return mMovieData.getTitle() != null ? 1 : 0;
     }
 
     /**
@@ -88,8 +88,7 @@ public class MovieAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
 
         protected void bind(Movie movie) {
             try {
-                itemMoviePoster = (ImageView) itemView.findViewById(R.id.item_movie_poster);
-                itemMovieTitle = (TextView) itemView.findViewById(R.id.item_movie_title);
+                itemMovieTitle.setText(movie.getTitle());
             } catch (Exception e) {
                 PLog.e(TAG, e.toString());
             }

@@ -10,13 +10,22 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.litesuits.orm.db.assit.WhereBuilder;
 import com.soa.FunNow.R;
 import com.soa.FunNow.base.BaseFragment;
@@ -34,21 +43,32 @@ import com.soa.FunNow.modules.main.domain.MultiUpdateEvent;
 import com.soa.FunNow.modules.main.domain.Weather;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.soa.FunNow.common.C.simpleSubTypeList;
+
 public class MovieFragment extends BaseFragment {
 
-    @BindView(R.id.recyclerview)
+    private static final String JSON_TOTAL = "total";
+    private static final String JSON_SUBJECTS = "subjects";
+
+    private static RequestQueue requestQueue;
+
+    @BindView(R.id.recyclerView_movie)
     RecyclerView mRecyclerView;
-    @BindView(R.id.swiprefresh)
-    SwipeRefreshLayout mRefreshLayout;
-//    @BindView(R.id.change_waterFall)
-//    LinearLayout change_waterFall;
+//    @BindView(R.id.swiprefresh)
+//    SwipeRefreshLayout mRefreshLayout;
 
     private MoviePageAdapter mAdapter;
-    private List<Movie> mMovie;
+    private List<Movie> mMovie = new ArrayList<>();
+    private String mRequestUrl;
+    private int mTotalItem;
+    private String mDataString;
 
     private View view;
 
@@ -62,37 +82,11 @@ public class MovieFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_multicity, container, false);
+            view = inflater.inflate(R.layout.fragment_movie, container, false);
             ButterKnife.bind(this, view);
         }
         return view;
     }
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getSupportActionBar() != null){
-//            getSupportActionBar().hide();
-//        }
-//        setContentView(R.layout.activity_main);
-//        buttonInit();
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_main);
-//        MoviePageAdapter adapter = new MoviePageAdapter(this);
-//        recyclerView.setAdapter(adapter);
-//    }
-
-    /**
-     * 按钮点击事件监听及方法
-     */
-//    private void buttonInit() {
-//        change_listView = (Button) findViewById(R.id.change_listView);
-//        change_gridView = (Button) findViewById(R.id.change_gridView);
-//        change_waterFall = (Button) findViewById(R.id.change_waterFall);
-//
-//        change_listView.setOnClickListener(this);
-//        change_gridView.setOnClickListener(this);
-//        change_waterFall.setOnClickListener(this);
-//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,64 +100,64 @@ public class MovieFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initData();
         initView();
 //        multiLoad();
     }
 
-    private void initView() {
-        mMovie = new ArrayList<>();
-        mAdapter = new MoviePageAdapter(mMovie);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setMoviePageClick(new MoviePageAdapter.onMoviePageClick() {
-//            @Override
-//            public void longClick(String city) {
-//                new AlertDialog.Builder(getActivity())
-//                        .setMessage("是否删除该城市?")
-//                        .setPositiveButton("删除", (dialog, which) -> {
-//                            OrmLite.getInstance().delete(new WhereBuilder(CityORM.class).where("name=?", city));
-//                            multiLoad();
-//                            Snackbar.make(getView(), String.format(Locale.CHINA, "已经将%s删掉了 Ծ‸ Ծ", city), Snackbar.LENGTH_LONG)
-//                                    .setAction("撤销",
-//                                            v -> {
-//                                                OrmLite.getInstance().save(new CityORM(city));
-//                                                multiLoad();
-//                                            }).show();
-//                        })
-//                        .show();
-//            }
+    private void initData() {
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        mRequestUrl = "http://api.douban.com/v2/movie/in_theaters";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, mRequestUrl, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            mTotalItem = response.getInt(JSON_TOTAL);
+                            mDataString = response.getString(JSON_SUBJECTS);
+                            mMovie = new Gson().fromJson(mDataString, simpleSubTypeList);
+                            System.out.println("qqqqqqqqqqqqqqqqqq " + mMovie.size());
+                            mAdapter.updateList(mMovie);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } finally {
+//                            mRefresh.setRefreshing(false);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+//                        mRefresh.setRefreshing(false);
+                    }
+                });
+        requestQueue.add(request);
+    }
 
+    private void initView() {
+//        mMovie = new ArrayList<>();
+        System.out.println("qqqqqqqqqqqqqqqqqq " + mMovie.size());
+        mAdapter = new MoviePageAdapter(mMovie);
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mAdapter);
+        System.out.println("111111111111111111111111");
+        mAdapter.setMoviePageClick(new MoviePageAdapter.onMoviePageClick() {
             @Override
             public void click(Movie movie) {
                 DetailMovieActivity.launch(getActivity(), movie);
             }
         });
 
-        if (mRefreshLayout != null) {
-            mRefreshLayout.setColorSchemeResources(
-                    android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light,
-                    android.R.color.holo_green_light,
-                    android.R.color.holo_blue_bright
-            );
+//        if (mRefreshLayout != null) {
+//            mRefreshLayout.setColorSchemeResources(
+//                    android.R.color.holo_orange_light,
+//                    android.R.color.holo_red_light,
+//                    android.R.color.holo_green_light,
+//                    android.R.color.holo_blue_bright
+//            );
 //            mRefreshLayout.setOnRefreshListener(() -> mRefreshLayout.postDelayed(this::multiLoad, 1000));
-        }
-    }
-
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.change_listView:
-//                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//                break;
-//            case R.id.change_gridView:
-//                recyclerView.setLayoutManager(new GridLayoutManager(MovieFragment.this,2));
-//                break;
-//            case R.id.change_waterFall:
-//                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
-//                break;
-//            default:
-//                break;
 //        }
-//    }
+    }
 }
