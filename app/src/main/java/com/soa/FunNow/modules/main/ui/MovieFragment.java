@@ -137,7 +137,6 @@ public class MovieFragment extends BaseFragment {
 
     private void initView() {
 //        mMovie = new ArrayList<>();
-        System.out.println("qqqqqqqqqqqqqqqqqq " + mMovie.size());
         mAdapter = new MoviePageAdapter(mMovie);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -20,10 +20,10 @@ import java.util.List;
 
 public class EventPageAdapter extends RecyclerView.Adapter<EventPageAdapter.EventPageViewHolder> {
     private Context mContext;
-    private EventPageAdapter.onEventPageClick mEventPageClick;
+    private onEventPageClick mEventPageClick;
     private List<Event> mEventList;
 
-    public void setEventPageClick(EventPageAdapter.onEventPageClick eventPageClick) {
+    public void setEventPageClick(onEventPageClick eventPageClick) {
         this.mEventPageClick = eventPageClick;
     }
 
@@ -38,13 +38,13 @@ public class EventPageAdapter extends RecyclerView.Adapter<EventPageAdapter.Even
     }
 
     @Override
-    public EventPageAdapter.EventPageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EventPageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        return new EventPageAdapter.EventPageViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_card, parent, false));
+        return new EventPageViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_card, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(EventPageAdapter.EventPageViewHolder holder, int position) {
+    public void onBindViewHolder(EventPageViewHolder holder, int position) {
 //        System.out.println(position);
         holder.bind(mEventList.get(position));
         holder.itemView.setOnClickListener(v -> mEventPageClick.click(mEventList.get(holder.getAdapterPosition())));
@@ -81,7 +81,7 @@ public class EventPageAdapter extends RecyclerView.Adapter<EventPageAdapter.Even
                 mEventTitle.setText(Util.safeText(event.getTitle()));
 //                System.out.println(event.poster);
                 Glide.with(mContext)
-                        .load(event.getImage())
+                        .load(event.getImage_hlarge())
                         .into(mEventPoster);
 
                 mPosterString.setText(Util.safeText(event.getAddress()));

@@ -87,7 +87,7 @@ public class EventAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
             try {
                 itemEventTitle.setText(event.getTitle());
                 Glide.with(mContext)
-                        .load(event.getImage())
+                        .load(event.getImage_hlarge())
                         .into(itemEventPoster);
             } catch (Exception e) {
                 PLog.e(TAG, e.toString());

@@ -21,7 +21,6 @@
                 android:id="@+id/movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/poster2"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"/>
 

@@ -23,6 +23,8 @@ public class Event implements Serializable {
     private String tags;
     @SerializedName("image_lmobile")
     private String image_lmobile;
+    @SerializedName("image_hlarge")
+    private String image_hlarge;
     @SerializedName("begin_time")
     private String begin_time;
     @SerializedName("end_time")
@@ -124,5 +126,13 @@ public class Event implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getImage_hlarge() {
+        return image_hlarge;
+    }
+
+    public void setImage_hlarge(String image_hlarge) {
+        this.image_hlarge = image_hlarge;
     }
 }

@@ -37,7 +37,7 @@ public class DetailEventActivity extends ToolbarActivity {
 
     private void initViewWithData() {
         Intent intent = getIntent();
-        Event event = (Event) intent.getSerializableExtra(IntentKey.MOVIE);
+        Event event = (Event) intent.getSerializableExtra(IntentKey.EVENT);
         if (event == null) {
             finish();
         }
@@ -59,7 +59,7 @@ public class DetailEventActivity extends ToolbarActivity {
 
     public static void launch(Context context, Event event) {
         Intent intent = new Intent(context, DetailEventActivity.class);
-        intent.putExtra(IntentKey.MOVIE, event);
+        intent.putExtra(IntentKey.EVENT, event);
         context.startActivity(intent);
     }
 }

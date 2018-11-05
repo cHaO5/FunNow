@@ -16,9 +16,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.promeg.pinyinhelper.Pinyin;
+import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
 import com.google.gson.Gson;
 import com.soa.FunNow.R;
 import com.soa.FunNow.base.BaseFragment;
+import com.soa.FunNow.common.utils.SharedPreferenceUtil;
 import com.soa.FunNow.modules.main.adapter.EventAdapter;
 import com.soa.FunNow.modules.main.adapter.EventPageAdapter;
 import com.soa.FunNow.modules.main.domain.Event;
@@ -44,6 +47,8 @@ public class EventFragment extends BaseFragment {
     private String mRequestUrl;
     private int mTotalItem;
     private String mDataString;
+    private boolean isGetData = false;
+
 
     private View view;
 
@@ -78,11 +83,30 @@ public class EventFragment extends BaseFragment {
         initData();
         initView();
 //        multiLoad();
+//        cityName = SharedPreferenceUtil.getInstance().getCityName();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isGetData = false;
+    }
+
+    @Override
+    public void onResume() {
+        if (!isGetData) {
+            initData();
+            initView();
+        }
+        super.onResume();
+    }
+
 
     private void initData() {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        mRequestUrl = "https://api.douban.com/v2/event/list?loc=guangzhou&count=60";
+        Pinyin.init(Pinyin.newConfig().with(CnCityDict.getInstance(getContext())));
+        String city = Pinyin.toPinyin(SharedPreferenceUtil.getInstance().getCityName(), "").toLowerCase();
+        mRequestUrl = "https://api.douban.com/v2/event/list?loc=" + city + "&count=60";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, mRequestUrl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -120,6 +144,7 @@ public class EventFragment extends BaseFragment {
         mAdapter.setEventPageClick(new EventPageAdapter.onEventPageClick() {
             @Override
             public void click(Event event) {
+//                System.out.println("222222222222222222222222222");
                 DetailEventActivity.launch(getActivity(), event);
             }
         });
