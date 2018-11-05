@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.soa.FunNow.R;
 import com.soa.FunNow.base.BaseViewHolder;
 import com.soa.FunNow.common.utils.SharedPreferenceUtil;
+import com.soa.FunNow.common.utils.StringUtil;
 import com.soa.FunNow.common.utils.Util;
 import com.soa.FunNow.component.PLog;
 import com.soa.FunNow.modules.main.domain.Movie;
@@ -104,8 +105,8 @@ public class MoviePageAdapter extends RecyclerView.Adapter<MoviePageAdapter.Movi
         ImageView mMoviePoster;
         @BindView(R.id.movie_title)
         TextView mMovieTitle;
-        @BindView(R.id.movie_poster_string)
-        TextView mPosterString;
+        @BindView(R.id.movie_genres)
+        TextView mGenres;
 
         public MoviePageViewHolder(View itemView) {
             super(itemView);
@@ -120,10 +121,7 @@ public class MoviePageAdapter extends RecyclerView.Adapter<MoviePageAdapter.Movi
                         .load(movie.getImages().getLarge())
                         .into(mMoviePoster);
 
-                mPosterString.setText(Util.safeText(""));
-                for (String s : movie.getGenres()) {
-                    mPosterString.append(s + " ");
-                }
+                mGenres.setText(StringUtil.getListString(movie.getGenres(), '/'));
 //                final OkHttpClient client  = new OkHttpClient();
 //                String url = movie.poster;
 //                //创建请求

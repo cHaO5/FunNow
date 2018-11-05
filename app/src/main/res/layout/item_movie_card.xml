@@ -28,17 +28,23 @@
                 android:id="@+id/movie_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/movie_poster"
+                android:layout_gravity="bottom"
                 android:lines="2"
-                android:gravity="center"
                 android:ellipsize="end"
+                android:background="@color/background_gray"
+                android:gravity="center"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_above="@+id/movie_genres"
         />
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/movie_poster_string"
+                android:id="@+id/movie_genres"
                 android:gravity="center"
-                android:layout_below="@+id/movie_title"/>
+                android:layout_below="@+id/movie_poster"/>
 
     </RelativeLayout>
 
