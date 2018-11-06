@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import com.bumptech.glide.Glide;
@@ -16,6 +17,9 @@ import com.soa.FunNow.common.utils.Util;
 import com.soa.FunNow.component.PLog;
 import com.soa.FunNow.modules.main.domain.Event;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EventPageAdapter extends RecyclerView.Adapter<EventPageAdapter.EventPageViewHolder> {
@@ -36,6 +40,7 @@ public class EventPageAdapter extends RecyclerView.Adapter<EventPageAdapter.Even
         this.mEventList = data;
         notifyDataSetChanged();
     }
+
 
     @Override
     public EventPageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -68,8 +73,8 @@ public class EventPageAdapter extends RecyclerView.Adapter<EventPageAdapter.Even
         ImageView mEventPoster;
         @BindView(R.id.event_title)
         TextView mEventTitle;
-        @BindView(R.id.event_poster_string)
-        TextView mPosterString;
+        @BindView(R.id.event_tag)
+        TextView mEventTag;
 
         public EventPageViewHolder(View itemView) {
             super(itemView);
@@ -83,8 +88,9 @@ public class EventPageAdapter extends RecyclerView.Adapter<EventPageAdapter.Even
                 Glide.with(mContext)
                         .load(event.getImage_hlarge())
                         .into(mEventPoster);
-
-                mPosterString.setText(Util.safeText(event.getAddress()));
+                String tag = "";
+                    tag = " " + event.getTags().split(",")[0] + " ";
+                mEventTag.setText(Util.safeText(tag));
             } catch (NullPointerException e) {
                 PLog.e(e.getMessage());
             }

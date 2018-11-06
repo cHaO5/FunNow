@@ -31,6 +31,8 @@ public class Event implements Serializable {
     private String end_time;
     @SerializedName("address")
     private String address;
+    @SerializedName("fee_str")
+    private String fee_str;
 
     public String getImage() {
         return image;
@@ -134,5 +136,13 @@ public class Event implements Serializable {
 
     public void setImage_hlarge(String image_hlarge) {
         this.image_hlarge = image_hlarge;
+    }
+
+    public String getFee_str() {
+        return fee_str;
+    }
+
+    public void setFee_str(String fee_str) {
+        this.fee_str = fee_str;
     }
 }

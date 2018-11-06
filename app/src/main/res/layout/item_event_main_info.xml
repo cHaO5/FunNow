@@ -7,28 +7,49 @@
                                     android:layout_height="wrap_content"
                                     android:layout_margin="@dimen/cardview_margin"
                                     android:foreground="?android:attr/selectableItemBackground"
-                                    card_view:cardCornerRadius="3dp"
+                                    card_view:cardCornerRadius="10dp"
                                     card_view:cardElevation="2dp">
 
     <RelativeLayout
-            android:paddingLeft="32dp"
-            android:paddingBottom="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="16dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <ImageView
                 android:id="@+id/item_event_poster"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitXY"/>
-        <TextView
-                android:id="@+id/item_event_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@+id/item_event_poster"/>
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@+id/item_event_poster"
+                      android:padding="10dp"
+                      android:orientation="vertical">
+            <TextView
+                    android:id="@+id/item_event_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:gravity="center"/>
+            <TextView
+                    android:id="@+id/item_event_tag"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/item_event_begin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/item_event_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/item_event_fee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
     </RelativeLayout>
 </android.support.v7.widget.CardView>

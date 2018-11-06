@@ -2,6 +2,7 @@ package com.soa.FunNow.modules.main.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class EventAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
     private Context mContext;
 
     private static final int TYPE_ONE = 0;
+    private static final int TYPE_TWO = 1;
 
     private Event mEventData;
 
@@ -35,6 +37,9 @@ public class EventAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
         if (position == EventAdapter.TYPE_ONE) {
             return EventAdapter.TYPE_ONE;
         }
+        if (position == EventAdapter.TYPE_TWO) {
+            return EventAdapter.TYPE_TWO;
+        }
         return super.getItemViewType(position);
     }
 
@@ -45,6 +50,9 @@ public class EventAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
             case TYPE_ONE:
                 return new EventAdapter.EventInfoViewHolder(
                         LayoutInflater.from(mContext).inflate(R.layout.item_event_main_info, parent, false));
+            case TYPE_TWO:
+                return new EventAdapter.EventConViewHolder(
+                        LayoutInflater.from(mContext).inflate(R.layout.item_event_content, parent, false));
         }
         return null;
     }
@@ -56,6 +64,9 @@ public class EventAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
             case TYPE_ONE:
                 ((EventAdapter.EventInfoViewHolder) holder).bind(mEventData);
                 break;
+            case TYPE_TWO:
+                ((EventAdapter.EventConViewHolder) holder).bind(mEventData);
+                break;
             default:
                 break;
         }
@@ -66,18 +77,25 @@ public class EventAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return mEventData.getTitle() != null ? 1 : 0;
+        return mEventData.getTitle() != null ? 2 : 0;
     }
 
-    /**
-     * 当前天气情况
-     */
+
     class EventInfoViewHolder extends BaseViewHolder<Event> {
 
         @BindView(R.id.item_event_poster)
         ImageView itemEventPoster;
         @BindView(R.id.item_event_title)
         TextView itemEventTitle;
+        @BindView(R.id.item_event_tag)
+        TextView itemEventTag;
+        @BindView(R.id.item_event_begin)
+        TextView itemEventBegin;
+        @BindView(R.id.item_event_end)
+        TextView itemEventEnd;
+        @BindView(R.id.item_event_fee)
+        TextView itemEventFee;
+
 
         EventInfoViewHolder(View itemView) {
             super(itemView);
@@ -86,9 +104,40 @@ public class EventAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
         protected void bind(Event event) {
             try {
                 itemEventTitle.setText(event.getTitle());
+                String begin = "开始时间: " + event.getBegin_time();
+                itemEventBegin.setText(begin);
+                itemEventTag.setText(event.getTags());
+                String end = "结束时间: " + event.getEnd_time();
+                itemEventEnd.setText(end);
+                String fee = "门票: " + event.getFee_str();
+                itemEventFee.setText(fee);
                 Glide.with(mContext)
                         .load(event.getImage_hlarge())
                         .into(itemEventPoster);
+            } catch (Exception e) {
+                PLog.e(TAG, e.toString());
+            }
+        }
+    }
+
+    class EventConViewHolder extends BaseViewHolder<Event> {
+
+        @BindView(R.id.item_event_content)
+        TextView itemEventContent;
+
+        EventConViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        protected void bind(Event event) {
+            try {
+                String raw = event.getContent();
+                String con = raw.replaceAll("<(?!br)[^>]*>", "");
+//                String con = raw.replaceAll("<div class=\"middle\"(.*)</div>", "");
+                String con1 = con.replaceAll("<br>[<br>]+", "<br><br>");
+                itemEventContent.setText(Html.fromHtml(con1));
+//                itemEventContent.setText(con);
+
             } catch (Exception e) {
                 PLog.e(TAG, e.toString());
             }
