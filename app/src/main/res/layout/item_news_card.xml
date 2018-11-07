@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                    xmlns:app="http://schemas.android.com/tools"
+                                    android:id="@+id/cardView_news"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:foreground="?android:attr/selectableItemBackground"
+                                    app:cardPreventCornerOverlap="false"
+                                    app:cardUseCompatPadding="true"
+                                    android:clickable="true"
+                                    android:layout_margin="5dp"
+                                    android:focusable="true">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+                android:id="@+id/news_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="2"
+                android:textSize="20sp"
+                android:ellipsize="end"
+                android:textColor="@color/black"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/news_source" android:layout_weight="1"
+                    android:textAlignment="textStart"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/news_time" android:layout_weight="1"
+                    android:textAlignment="textEnd"/>
+        </LinearLayout>
+        <ImageView
+                android:id="@+id/news_poster"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:paddingTop="10dp"
+
+                android:layout_height="wrap_content" android:id="@+id/news_digest"/>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
