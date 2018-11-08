@@ -23,22 +23,11 @@ public class MapAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolder>
 
     private Context mContext;
 
-    private static final int TYPE_ONE = 0;
-
-//    private Movie mMovieData;
     private List<Map> mMap;
 
     public MapAdapter(List<Map> mMap) {
         this.mMap = mMap;
     }
-
-//    @Override
-//    public int getItemViewType(int position) {
-//        if (position == MapAdapter.TYPE_ONE) {
-//            return MapAdapter.TYPE_ONE;
-//        }
-//        return super.getItemViewType(position);
-//    }
 
     public void updateList(List<Map> data) {
         this.mMap = data;
@@ -49,30 +38,13 @@ public class MapAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolder>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-//        switch (viewType) {
-//            case TYPE_ONE:
-//                return new MapAdapter.MapViewHolder(
-//                        LayoutInflater.from(mContext).inflate(R.layout.item_map, parent, false));
-//        }
         return new MapAdapter.MapViewHolder(
                 LayoutInflater.from(mContext).inflate(R.layout.item_map_card, parent, false));
-//        return null;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-//        int itemType = getItemViewType(position);
-//        switch (itemType) {
-//            case TYPE_ONE:
-//                ((MapAdapter.MapViewHolder) holder).bind(mMap.get(position));
-//                break;
-//            default:
-//                break;
-//        }
         ((MapAdapter.MapViewHolder) holder).bind(mMap.get(position));
-//        if (SharedPreferenceUtil.getInstance().getMainAnim()) {
-//            showItemAnim(holder.itemView, position);
-//        }
     }
 
     @Override

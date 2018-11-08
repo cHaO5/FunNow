@@ -15,10 +15,6 @@ public class CardMovieHelper {
 
     private static Map<MovieInfo, Integer> sMap = new HashMap<>();
 
-//    static {
-//        sMap.put(new CardMovieHelper.MovieInfo(TEST_CODE, OTHER), R.mipmap.empty);
-//
-//    }
 
     void applyStatus(int code, String title, View view) {
         if (code == 1) { code = TEST_CODE; }

@@ -133,11 +133,8 @@ public class EventAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
             try {
                 String raw = event.getContent();
                 String con = raw.replaceAll("<(?!br)[^>]*>", "");
-//                String con = raw.replaceAll("<div class=\"middle\"(.*)</div>", "");
                 String con1 = con.replaceAll("<br>[<br>]+", "<br><br>");
                 itemEventContent.setText(Html.fromHtml(con1));
-//                itemEventContent.setText(con);
-
             } catch (Exception e) {
                 PLog.e(TAG, e.toString());
             }

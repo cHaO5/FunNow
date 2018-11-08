@@ -39,8 +39,6 @@ public class EventFragment extends BaseFragment {
 
     @BindView(R.id.recyclerView_event)
     RecyclerView mRecyclerView;
-//    @BindView(R.id.swiprefresh)
-//    SwipeRefreshLayout mRefreshLayout;
 
     private EventPageAdapter mAdapter;
     private List<Event> mEvent = new ArrayList<>();
@@ -71,10 +69,6 @@ public class EventFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        RxBus.getDefault()
-//                .toObservable(MultiUpdateEvent.class)
-//                .doOnNext(event -> multiLoad())
-//                .subscribe();
     }
 
     @Override
@@ -82,8 +76,6 @@ public class EventFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initData();
         initView();
-//        multiLoad();
-//        cityName = SharedPreferenceUtil.getInstance().getCityName();
     }
 
     @Override
@@ -134,30 +126,16 @@ public class EventFragment extends BaseFragment {
     }
 
     private void initView() {
-//        mMovie = new ArrayList<>();
-        System.out.println("qqqqqqqqqqqqqqqqqq " + mEvent.size());
         mAdapter = new EventPageAdapter(mEvent);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
-        System.out.println("111111111111111111111111");
         mAdapter.setEventPageClick(new EventPageAdapter.onEventPageClick() {
             @Override
             public void click(Event event) {
-//                System.out.println("222222222222222222222222222");
                 DetailEventActivity.launch(getActivity(), event);
             }
         });
 
-//        if (mRefreshLayout != null) {
-//            mRefreshLayout.setColorSchemeResources(
-//                    android.R.color.holo_orange_light,
-//                    android.R.color.holo_red_light,
-//                    android.R.color.holo_green_light,
-//                    android.R.color.holo_blue_bright
-//            );
-//            mRefreshLayout.setOnRefreshListener(() -> mRefreshLayout.postDelayed(this::multiLoad, 1000));
-//        }
     }
 
 }

@@ -22,10 +22,6 @@ public class DetailNewsActivity extends ToolbarActivity {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
-//    @BindView(R.id.news_web)
-//    WebView webView;
-//    @BindView(R.id.news_web_title)
-//    TextView title;
 
     @Override
     protected int layoutId() {
@@ -50,20 +46,8 @@ public class DetailNewsActivity extends ToolbarActivity {
             finish();
         }
         safeSetTitle(news.getTitle());
-//        title.setText(news.getTitle());
-//        WebView webView = (WebView) findViewById(R.id.news_web);
-//        webView.getSettings().setJavaScriptEnabled(true);
-//        webView.setWebViewClient(new WebViewClient());
-//        webView.loadUrl(news.getUrl_3w());
-//
-//        Uri uri = Uri.parse(news.getUrl_3w());   //指定网址
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_VIEW);           //指定Action
-//        intent.setData(uri);                            //设置Uri
-//        startActivity(intent);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mRecyclerView.setLayoutManager(new CAConstrantLayoutManager(this));
         NewsAdapter mAdapter = new NewsAdapter(news);
         mRecyclerView.setAdapter(mAdapter);
     }

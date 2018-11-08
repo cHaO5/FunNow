@@ -2,20 +2,11 @@ package com.soa.FunNow.modules.main.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,29 +17,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.litesuits.orm.db.assit.WhereBuilder;
 import com.soa.FunNow.R;
 import com.soa.FunNow.base.BaseFragment;
-import com.soa.FunNow.common.C;
-import com.soa.FunNow.common.utils.RxUtil;
-import com.soa.FunNow.common.utils.Util;
-import com.soa.FunNow.component.OrmLite;
-import com.soa.FunNow.component.RetrofitSingleton;
-import com.soa.FunNow.component.RxBus;
 import com.soa.FunNow.modules.main.adapter.MoviePageAdapter;
-import com.soa.FunNow.modules.main.adapter.MultiCityAdapter;
-import com.soa.FunNow.modules.main.domain.CityORM;
 import com.soa.FunNow.modules.main.domain.Movie;
-import com.soa.FunNow.modules.main.domain.MultiUpdateEvent;
-import com.soa.FunNow.modules.main.domain.Weather;
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static com.soa.FunNow.common.C.movieSubTypeList;
 
@@ -61,8 +38,6 @@ public class MovieFragment extends BaseFragment {
 
     @BindView(R.id.recyclerView_movie)
     RecyclerView mRecyclerView;
-//    @BindView(R.id.swiprefresh)
-//    SwipeRefreshLayout mRefreshLayout;
 
     private MoviePageAdapter mAdapter;
     private List<Movie> mMovie = new ArrayList<>();
@@ -91,10 +66,6 @@ public class MovieFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        RxBus.getDefault()
-//                .toObservable(MultiUpdateEvent.class)
-//                .doOnNext(event -> multiLoad())
-//                .subscribe();
     }
 
     @Override
@@ -136,12 +107,9 @@ public class MovieFragment extends BaseFragment {
     }
 
     private void initView() {
-//        mMovie = new ArrayList<>();
         mAdapter = new MoviePageAdapter(mMovie);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
-        System.out.println("111111111111111111111111");
         mAdapter.setMoviePageClick(new MoviePageAdapter.onMoviePageClick() {
             @Override
             public void click(Movie movie) {
@@ -149,14 +117,5 @@ public class MovieFragment extends BaseFragment {
             }
         });
 
-//        if (mRefreshLayout != null) {
-//            mRefreshLayout.setColorSchemeResources(
-//                    android.R.color.holo_orange_light,
-//                    android.R.color.holo_red_light,
-//                    android.R.color.holo_green_light,
-//                    android.R.color.holo_blue_bright
-//            );
-//            mRefreshLayout.setOnRefreshListener(() -> mRefreshLayout.postDelayed(this::multiLoad, 1000));
-//        }
     }
 }

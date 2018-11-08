@@ -30,7 +30,6 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.NewsPa
 
     public NewsPageAdapter(List<News> newsList) {
         this.mNewsList = newsList;
-//        this.mNewsList = testlistnews;
     }
 
     public void updateList(List<News> data) {
@@ -46,7 +45,6 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.NewsPa
 
     @Override
     public void onBindViewHolder(NewsPageAdapter.NewsPageViewHolder holder, int position) {
-//        System.out.println(position);
         holder.bind(mNewsList.get(position));
         holder.itemView.setOnClickListener(v -> mNewsPageClick.click(mNewsList.get(holder.getAdapterPosition())));
     }
@@ -97,14 +95,10 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.NewsPa
             } catch (NullPointerException e) {
                 PLog.e(e.getMessage());
             }
-
-//            int code = 1;
-//            new CardNewsHelper().applyStatus(code, movie.getTitle(), mCardView);
         }
     }
 
     public interface onNewsPageClick {
-        //        void longClick();
         void click(News news);
     }
 

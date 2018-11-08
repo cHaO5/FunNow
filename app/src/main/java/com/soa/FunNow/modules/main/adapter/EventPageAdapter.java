@@ -84,7 +84,6 @@ public class EventPageAdapter extends RecyclerView.Adapter<EventPageAdapter.Even
         protected void bind(Event event) {
             try {
                 mEventTitle.setText(Util.safeText(event.getTitle()));
-//                System.out.println(event.poster);
                 Glide.with(mContext)
                         .load(event.getImage_hlarge())
                         .into(mEventPoster);
@@ -96,13 +95,11 @@ public class EventPageAdapter extends RecyclerView.Adapter<EventPageAdapter.Even
             } catch (NullPointerException e) {
                 PLog.e(e.getMessage());
             }
-//            int code = 1;
-//            new CardEventHelper().applyStatus(code, event.getTitle(), mCardView);
+
         }
     }
 
     public interface onEventPageClick {
-        //        void longClick();
         void click(Event event);
     }
 

@@ -45,28 +45,7 @@ public class MoviePageAdapter extends RecyclerView.Adapter<MoviePageAdapter.Movi
     }
 
     public MoviePageAdapter(List<Movie> movieList) {
-//        Movie testmovie = new Movie();
-////        testmovie.id = "111";
-//        testmovie.setOriginal_title("https://www.google.com/url?sa=i&sour");
-//        testmovie.setTitle("test1");
-//        Movie testmovie2 = new Movie();
-////        testmovie2.id = "222";
-//        testmovie2.setOriginal_title("");
-//        testmovie2.setTitle("test2");
-//        Movie testmovie3 = new Movie();
-////        testmovie3.id = "333";
-//        testmovie3.setOriginal_title("ce=images&cd=&cad=rja&uact=8&ved=2ahUKEwit96r5jrXeAhVMHjQIHS");
-//        testmovie3.setTitle("test3");
-//        List<Movie> testlistmovie = new ArrayList<>();
-//        testlistmovie.add(testmovie);
-//        testlistmovie.add(testmovie2);
-//        testlistmovie.add(testmovie3);
-//        for (Movie m : testlistmovie) {
-//            System.out.println(m.title);
-//            System.out.println(m.poster);
-//        }
         this.mMovieList = movieList;
-//        this.mMovieList = testlistmovie;
     }
 
     public void updateList(List<Movie> data) {
@@ -116,52 +95,14 @@ public class MoviePageAdapter extends RecyclerView.Adapter<MoviePageAdapter.Movi
         protected void bind(Movie movie) {
             try {
                 mMovieTitle.setText(Util.safeText(movie.getTitle()));
-//                System.out.println(movie.poster);
                 Glide.with(mContext)
                         .load(movie.getImages().getLarge())
                         .into(mMoviePoster);
 
                 mGenres.setText(StringUtil.getListString(movie.getGenres(), '/'));
-//                final OkHttpClient client  = new OkHttpClient();
-//                String url = movie.poster;
-//                //创建请求
-//                final Request request = new Request.Builder()
-//                        .get()
-//                        .url(url)
-//                        .build();
-//                //使用异步加载，判断连接网络是否成功
-//                Call newCall = client.newCall(request);
-//                newCall.enqueue(new Callback() {
-//                    @Override
-//                    public void onFailure(Call call, IOException e) {
-//                        //连接失败
-////                        Toast.makeText(getApplicationContext(),"连接网络失败！请检查网络！",Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onResponse(Call call, Response response) throws IOException {
-//                        System.out.println("qpqqqqqqqqqqqqqqqqqqqqqq");
-//                        InputStream inputStream = response.body().byteStream();//得到图片的流
-//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//                        mMoviePoster.setImageBitmap(bitmap);
-//                    }
-//                });
             } catch (NullPointerException e) {
                 PLog.e(e.getMessage());
             }
-
-//            Glide.with(mContext)
-//                    .load(SharedPreferenceUtil.getInstance().getInt("晴", R.mipmap.type_two_sunny))
-//                    .asBitmap()
-//                    .into(new SimpleTarget<Bitmap>() {
-//                        @Override
-//                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                            mMoviePoster.setImageBitmap(resource);
-//                            mMoviePoster.setColorFilter(Color.WHITE);
-//                        }
-//                    });
-//            System.out.println(movie.title);
-//            System.out.println(movie.poster);
             int code = 1;
             new CardMovieHelper().applyStatus(code, movie.getTitle(), mCardView);
         }

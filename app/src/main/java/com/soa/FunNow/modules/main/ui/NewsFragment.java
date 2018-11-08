@@ -33,20 +33,16 @@ import static com.soa.FunNow.common.C.newsSubTypeList;
 
 public class NewsFragment extends BaseFragment {
 
-//    private static final String JSON_TOTAL = "total";
     private static final String JSON_SUBJECTS = "T1467284926140";
 
     private static RequestQueue requestQueue;
 
     @BindView(R.id.recyclerView_news)
     RecyclerView mRecyclerView;
-//    @BindView(R.id.swiprefresh)
-//    SwipeRefreshLayout mRefreshLayout;
 
     private NewsPageAdapter mAdapter;
     private List<News> mNews = new ArrayList<>();
     private String mRequestUrl;
-    private int mTotalItem;
     private String mDataString;
 
     private View view;
@@ -70,10 +66,6 @@ public class NewsFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        RxBus.getDefault()
-//                .toObservable(MultiUpdateEvent.class)
-//                .doOnNext(event -> multiLoad())
-//                .subscribe();
     }
 
     @Override
@@ -81,7 +73,6 @@ public class NewsFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initData();
         initView();
-//        multiLoad();
     }
 
     private void initData() {
@@ -92,15 +83,12 @@ public class NewsFragment extends BaseFragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-//                            mTotalItem = response.getInt(JSON_TOTAL);
                             mDataString = response.getString(JSON_SUBJECTS);
                             mNews = new Gson().fromJson(mDataString, newsSubTypeList);
-                            System.out.println("qqqqqqqqqqqqqqqqqq " + mNews.size());
                             mAdapter.updateList(mNews);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } finally {
-//                            mRefresh.setRefreshing(false);
                         }
                     }
                 },
@@ -115,33 +103,16 @@ public class NewsFragment extends BaseFragment {
     }
 
     private void initView() {
-//        mNews = new ArrayList<>();
         mAdapter = new NewsPageAdapter(mNews);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
         System.out.println("111111111111111111111111");
         mAdapter.setNewsPageClick(new NewsPageAdapter.onNewsPageClick() {
             @Override
             public void click(News news) {
-//                Uri uri = Uri.parse(news.getUrl_3w());   //指定网址
-//                Intent intent = new Intent();
-//                intent.setAction(Intent.ACTION_VIEW);           //指定Action
-//                intent.setData(uri);                            //设置Uri
-//                startActivity(intent);
                 DetailNewsActivity.launch(getActivity(), news);
             }
         });
-
-//        if (mRefreshLayout != null) {
-//            mRefreshLayout.setColorSchemeResources(
-//                    android.R.color.holo_orange_light,
-//                    android.R.color.holo_red_light,
-//                    android.R.color.holo_green_light,
-//                    android.R.color.holo_blue_bright
-//            );
-//            mRefreshLayout.setOnRefreshListener(() -> mRefreshLayout.postDelayed(this::multiLoad, 1000));
-//        }
     }
 }
 

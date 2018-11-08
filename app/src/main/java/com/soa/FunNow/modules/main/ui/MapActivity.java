@@ -37,20 +37,6 @@ public class MapActivity extends ToolbarActivity {
     private String mRequestUrl;
     private List<Map> mMap = new ArrayList<>();
     private MapAdapter mAdapter;
-//    Handler mHandler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            switch (msg.what) {
-//                case 0:
-//                    sendRequestWithOkHttp();
-//                    mAdapter.updateList(mMap);
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    };
 
     @Override
     protected int layoutId() {
@@ -97,12 +83,6 @@ public class MapActivity extends ToolbarActivity {
                     Request request = new Request.Builder()
                             .url(mRequestUrl)
                             .build();
-//                    Response response = client.newCall(request).execute();
-//                    String responseData = response.body().string();
-//                    System.out.println(responseData);
-//                    parseXMLWithPull(responseData);
-//                    mAdapter.updateList(mMap);
-//                    mHandler.sendEmptyMessage(0);
                     Call call = client.newCall(request);
                     call.enqueue(new Callback() {
                         @Override
@@ -115,8 +95,6 @@ public class MapActivity extends ToolbarActivity {
                             String responseData = response.body().string();
                             System.out.println(responseData);
                             parseXMLWithPull(responseData);
-//                            mAdapter.updateList(mMap);
-
                             MapActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

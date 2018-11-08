@@ -76,8 +76,6 @@ public class NewsAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolder
 
         @BindView(R.id.news_web)
         WebView webView;
-//        @BindView(R.id.news_web_title)
-//        TextView text;
 
 
         NewsViewHolder(View itemView) {
@@ -89,7 +87,6 @@ public class NewsAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolder
                 webView.getSettings().setJavaScriptEnabled(true);
                 webView.setWebViewClient(new WebViewClient());
                 webView.loadUrl(news.getUrl_3w());
-//                text.setText(news.getTitle());
             } catch (Exception e) {
                 PLog.e(TAG, e.toString());
             }
