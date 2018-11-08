@@ -89,7 +89,9 @@ public class EventPageAdapter extends RecyclerView.Adapter<EventPageAdapter.Even
                         .load(event.getImage_hlarge())
                         .into(mEventPoster);
                 String tag = "";
+                if (!event.getTags().split(",")[0].equals("")) {
                     tag = " " + event.getTags().split(",")[0] + " ";
+                }
                 mEventTag.setText(Util.safeText(tag));
             } catch (NullPointerException e) {
                 PLog.e(e.getMessage());

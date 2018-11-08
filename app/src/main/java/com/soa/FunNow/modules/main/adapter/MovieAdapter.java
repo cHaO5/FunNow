@@ -1,10 +1,12 @@
 package com.soa.FunNow.modules.main.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -17,6 +19,8 @@ import com.soa.FunNow.component.AnimRecyclerViewAdapter;
 import com.soa.FunNow.component.PLog;
 import com.soa.FunNow.modules.main.domain.CelebrityEntity;
 import com.soa.FunNow.modules.main.domain.Movie;
+import com.soa.FunNow.modules.main.ui.DetailMovieActivity;
+import com.soa.FunNow.modules.main.ui.MapActivity;
 
 public class MovieAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolder> {
     private static String TAG = MovieAdapter.class.getSimpleName();
@@ -160,13 +164,19 @@ public class MovieAdapter extends AnimRecyclerViewAdapter<RecyclerView.ViewHolde
     class MovieButtonViewHolder extends BaseViewHolder<Movie> {
 
         @BindView(R.id.item_movie_button)
-        TextView movieButton;
+        Button movieButton;
 
         MovieButtonViewHolder(View itemView) {
             super(itemView);
         }
 
         protected void bind(Movie movie) {
+            movieButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MapActivity.launch(mContext, movie);
+                }
+            });
         }
     }
 
